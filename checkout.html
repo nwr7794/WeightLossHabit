@@ -7,9 +7,10 @@
 <html>
 
 <head>
-	<title>Contact - Twenty by HTML5 UP</title>
+	<title>Skinny Life - Checkout</title>
 	<meta charset="utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+	<meta name="description" content="Skinny Life helps you lose weight for life by sustainabky changing your habits. Buy our guide today.">
 	<link rel="stylesheet" href="assets/css/main.css" />
 	<noscript>
 		<link rel="stylesheet" href="assets/css/noscript.css" />
@@ -38,47 +39,53 @@
 				<!-- Content -->
 				<div class="content">
 					<img style="height: auto; width: 100%; border-radius: 25px;" src="images/Guide.png" alt="">
-					<!-- <div class="row"> -->
-						<!-- <div class="col-6 col-12-narrower"> -->
-							<section>
-								<h2><b><u>Order Summary</u></b></h2>
-								<table style="max-width: 275px; margin: auto;">
-									<tr>
-										<td><b>Normal Price</b></td>
-										<td><b>$79</b></td>
-									</tr>
-									<tr>
-										<td><b>Promo Price</b></td>
-										<td><b>$37</b></td>
-									</tr>
-									<tr style="border-bottom: 1px solid black;">
-										<td><b>Discounts</b></td>
-										<td><b>$0</b></td>
-									</tr>
-									<tr>
-										<td><b style="color: red;">TOTAL</b></td>
-										<td><b style="color: red;">$37</b></td>
-									</tr>
-								</table>
-							</section>
-						<!-- </div> -->
-					<!-- </div> -->
-
+					<section>
+						<h2><b><u>Order Summary</u></b></h2>
+						<h3>The guide is available for download immediately after payment is processed.</h3>
+						<table style="max-width: 275px; margin: auto;">
+							<tr>
+								<td><b>Normal Price</b></td>
+								<td><b><s>$79</s></b></td>
+							</tr>
+							<tr>
+								<td><b>Promo Price</b></td>
+								<td><b>$37</b></td>
+							</tr>
+							<tr style="border-bottom: 1px solid black;">
+								<td><b>Discounts</b></td>
+								<td><b>$0</b></td>
+							</tr>
+							<tr>
+								<td><b style="color: red;">TOTAL</b></td>
+								<td><b style="color: red;">$37</b></td>
+							</tr>
+						</table>
+					</section>
 					<hr>
-					<form>
-						<input style="max-width: 275px; margin: auto;" type="email" name="email" placeholder="Enter Email" required/>
+
+					<div id="replace">
+
+
+
+						<form id="payment">
+							<input style="max-width: 275px; margin: auto;" type="email" name="email" id="email_ass" placeholder="Enter Email" required />
+							<hr>
+							<ul class="buttons">
+								<li><input type="submit" class="special" value="Go To Payment" style="color: red;" />
+								</li>
+							</ul>
+						</form>
+
 						<hr>
-						<ul class="buttons">
-							<li><input type="submit" class="special" value="Go To Payment" style="color: red;" /></li>
-						</ul>
-					</form>
+						<div style="width: max-content; margin: auto;">
+							<p style="margin: 0px ;text-align: left;">✅60 Day Money Back Gurantee</p>
+							<p style="margin: 0px; text-align: left;">✅100% Secure Order</p>
+							<p style="margin-bottom: 25px; text-align: left;">✅Weight Loss For Life</p>
 
-					<hr>
-					<div style="width: max-content; margin: auto;">
-					<p style="margin: 0px ;text-align: left;">✅60 Day Money Back Gurantee</p>
-					<p style="margin: 0px; text-align: left;">✅100% Secure Order</p>
-					<p style="margin-bottom: 25px; text-align: left;">✅Weight Loss For Life</p>
-				</div>
+
+						</div>
+
+					</div>
 
 				</div>
 
@@ -107,7 +114,8 @@
 	<script src="assets/js/breakpoints.min.js"></script>
 	<script src="assets/js/util.js"></script>
 	<script src="assets/js/main.js"></script>
-
+	<script src="assets/js/checkout.js"></script>
+	<script src="assets/js/config.js"></script>
 </body>
 
 </html>
