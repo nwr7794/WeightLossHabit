@@ -131,7 +131,7 @@
             document.getElementById("scrollTo").scrollIntoView({ behavior: 'smooth' });
 
             // Jump to final questions
-            if (pageCounter == 1) { //16
+            if (pageCounter == 16) { //16
                 mealActive = 0
                 setLifestyle();
 
@@ -321,7 +321,7 @@
             var newString =  '<li><b>' + lifestyleLog[ii][1] + ': ' + mealSourceDir.find(x => x[0] == lifestyleLog[ii][0])[1] + '</b></li>'
             outputHTML = outputHTML + newString
         }
-        outputHTML = outputHTML + '</ul><p>*This is important because our service fits your program to your current lifestyle.</p>'
+        outputHTML = outputHTML + '</ul><p>*This is important because our service fits <u>your program</u> to <u>your lifestyle</u>.</p>'
 
 
 
