@@ -43,19 +43,54 @@
                     <section id="contentMain">
 
                         <!-- <h3 id="questionHeader">On a typical day, how much of the following do you consume during <strong>Breakfast</strong>?</h3> -->
-                        <!-- <h3 id="questionHeader"></h3> -->
-
-                        <span id="questionHeader"></span>
-
-
-                        <!-- <h2><strong>Your typical <u>BREAKFAST</u> includes:</strong></h2>
-                        <h4>Click any that apply</h4> -->
-
+                        <h3 id="questionHeader"></h3>
 
                         <div id="questionList">
-                            <ul class="buttons" id="selectionsList">
-                                <!-- <li style="width: 100%; padding-top: 7px;"><div style="border-radius: 25px; width: 100%; max-width: 100%; font-size:100%; border: solid 1px; text-align: left; padding: 7px;"><b>A pastry (dougnut, muffin, cinnamon roll, etc)</b></div></li> -->
-                            </ul>
+                            <!-- Beverages -->
+                            <div class="collapsibleModel">
+                                <b>Beverages:</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                <div class="symbolExpand"><b>+</b></div>
+                            </div>
+                            <div class="contentCollapse" style="height: fit-content;">
+                                <!-- <u>Servings ~ Name ~ Serving Size</u> -->
+                                <ul style="text-align: left; list-style: none; padding: 0;" id="BeveragesList"></ul>
+                            </div>
+                            <!-- Grains -->
+                            <div class="collapsibleModel">
+                                <b>Grains:</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                <div class="symbolExpand"><b>+</b></div>
+                            </div>
+                            <div class="contentCollapse" style="height: fit-content;">
+                                <!-- <u>Servings ~ Name ~ Serving Size</u> -->
+                                <ul style="text-align: left; list-style: none; padding: 0;" id="GrainsList"></ul>
+                            </div>
+                            <!-- Starches -->
+                            <div class="collapsibleModel">
+                                <b>Starches:</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                <div class="symbolExpand"><b>+</b></div>
+                            </div>
+                            <div class="contentCollapse" style="height: fit-content;">
+                                <!-- <u>Servings ~ Name ~ Serving Size</u> -->
+                                <ul style="text-align: left; list-style: none; padding: 0;" id="StarchesList"></ul>
+                            </div>
+                            <!-- Packaged Food -->
+                            <div class="collapsibleModel">
+                                <b>Packaged Food:</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                <div class="symbolExpand"><b>+</b></div>
+                            </div>
+                            <div class="contentCollapse" style="height: fit-content;">
+                                <!-- <u>Servings ~ Name ~ Serving Size</u> -->
+                                <ul style="text-align: left; list-style: none; padding: 0;" id="PackagedFoodList"></ul>
+                            </div>
+                            <!-- Sweets -->
+                            <div class="collapsibleModel">
+                                <b>Sweets:</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                <div class="symbolExpand"><b>+</b></div>
+                            </div>
+                            <div class="contentCollapse" style="height: fit-content;">
+                                <!-- <u>Servings ~ Name ~ Serving Size</u> -->
+                                <ul style="text-align: left; list-style: none; padding: 0;" id="SweetsList"></ul>
+                            </div>
 
                         </div>
 
@@ -63,12 +98,9 @@
                         <!-- <input style="max-width: 275px; margin: auto;" type="email" name="email" id="email_ass"
                                 placeholder="Enter Email" required /> -->
                         <hr>
-                        <ul class="buttons" id="buttonList">
+                        <ul class="buttons">
                             <li><input id="nextClick" type="submit" class="special" value="Next" style="color: red;" />
                             </li>
-                            <!-- <li style="padding: 4px; display: none;" id="backButton"><input id="prevClick" type="submit" class="special" value="Back" style="color: red;" />
-                            </li> -->
-
                             <!-- <li><input id="lastClick" type="submit" class="special" value="Back" style="color: red;" />
                             </li> -->
                         </ul>
@@ -77,27 +109,9 @@
                         <div id="progress" style="width: max-content; margin: auto; color: blue;"></div>
                     </section>
 
-                    <form id="emailForm" style="display: none;">
-                        <h3 style="color: rgb(0, 0, 0)"><b>Our weight loss service isn't quite ready! 
-                            If you'd like us to notify you when the service is active, submit your email
-                            below:</b></h3>
-
-
-                        <input style="max-width: 275px; margin: auto; border-radius: 25px; margin-bottom: 7px;" type="email" name="email" id="email_ass"
-                            placeholder="Enter Email" required />
-                        <!-- <hr> -->
-                        <input style="max-width: 275px; margin: auto;border-radius: 25px;" type="text" name="age" id="age_ass"
-                        placeholder="Enter Age (Helps us improve!)" />
-                        <hr>
-                        <ul class="buttons">
-                            <li><input type="submit" class="special" value="Submit" style="color: red;" />
-                            </li>
-                        </ul>
-                    </form>
-
                 </div>
 
-            </section>
+
 
         </article>
 
@@ -123,7 +137,7 @@
     <script src="assets/js/breakpoints.min.js"></script>
     <script src="assets/js/util.js"></script>
     <script src="assets/js/main.js"></script>
-    <script src="assets/js/model.js"></script>
+    <script src="assets/js/model_old.js"></script>
     <script src="assets/js/config.js"></script>
 </body>
 
