@@ -328,8 +328,10 @@
 
 
 
+        $("#progress").hide()
         $("#contentMain").html(outputHTML)
         $('#emailForm').show()
+
 
     }
 
