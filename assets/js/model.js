@@ -91,8 +91,8 @@
 
     function storeInputs() {
 
-        // First wipe old data from that meal if there is any
-        inputLog = inputLog.filter(x => x[1] != mealTimes[mealActive] && x[2] != categories[categoryActive])
+        // First wipe old data from that meal if there is any - only need this if there is a back button
+        // inputLog = inputLog.filter(x => x[1] != mealTimes[mealActive] && x[2] != categories[categoryActive])
 
         // Store selected data
         // Structure: [ID,Time of Day,Category]
@@ -272,13 +272,14 @@
         outputSorted = outputSorted.slice(0, 5);
         // console.log(outputSorted)
 
-        var outputHTML = '<h3><b>Your top consumption habits that promote weight gain:</b></h3><ol style="text-align: left">'
+        var outputHTML = '<h3><b style="color: lightskyblue;">Your top consumption habits that promote weight gain:</b></h3><ol style="text-align: left">'
 
         for (ii = 0; ii < outputSorted.length; ii++) {
             var newString = '<li><b><u>' + outputSorted[ii][0] + '</u></b> during <b>' + outputSorted[ii][1] + '</b></li>'
             outputHTML = outputHTML + newString
         }
         outputHTML = outputHTML + '</ol>'
+
 
         // Add meal times ranked output here
         var mealAgg = [[mealTimes[0], 0], [mealTimes[1], 0], [mealTimes[2], 0], [mealTimes[3], 0]]
@@ -300,20 +301,19 @@
         });
 
         // Add to html output
-        outputHTML = outputHTML + '<h3><b>Your top meal times that promote weight gain:</b></h3><ol style="text-align: left">'
+        outputHTML = outputHTML + '<h3><b style="color: lightskyblue;">Your top meal times that promote weight gain:</b></h3><ol style="text-align: left">'
 
         for (ii = 0; ii < mealAggSorted.length; ii++) {
-            var newString = '<li><b><u>' + mealAggSorted[ii][0] + '</u></b></li>'
+            var newString = '<li><b>' + mealAggSorted[ii][0] + '</b></li>'
             outputHTML = outputHTML + newString
         }
         outputHTML = outputHTML + '</ol>'
 
+
+
         // Add meal sources
-
-
-
-        // Add to html output
-        outputHTML = outputHTML + '<h3><b>Your food sources:</b></h3><ul style="text-align: left; margin-bottom: 15px;">'
+         // Add to html output
+        outputHTML = outputHTML + '<h3><b style="color: lightskyblue;">Your food sources:</b></h3><ul style="text-align: left; margin-bottom: 15px;">'
 
 
 
