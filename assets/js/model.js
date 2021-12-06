@@ -372,13 +372,12 @@
         outputHTML = outputHTML + '</ul><p>*This is important because our service fits <u>your program</u> to <u>your lifestyle</u>.</p>'
 
 
-
-
-
-
         $("#progress").hide()
         $("#contentMain").html(outputHTML)
         $('#emailForm').show()
+
+        // Scroll to top
+        document.getElementById("scrollTo").scrollIntoView({ behavior: 'smooth' });
 
 
     }
