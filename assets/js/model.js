@@ -291,7 +291,7 @@
 
 
 
-        var mealAgg = [[mealTimes[0], 0.01], [mealTimes[1], 0.01], [mealTimes[2], 0.01], [mealTimes[3], 0.01]]
+        var mealAgg = [[mealTimes[0], 0.5], [mealTimes[1], 0.5], [mealTimes[2], 0.5], [mealTimes[3], 0.5]]
         for (j = 0; j < mealAgg.length; j++) {
             // Filter array for giventime of day
             var filteredArray = inputLog.filter(x => x[1] == mealAgg[j][0])
