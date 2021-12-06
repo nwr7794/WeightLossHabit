@@ -150,14 +150,19 @@
         // Global var of food DB
         if (pageCounter == 0) {
             foodData = dietDB.responseJSON.values
-            $("#backButton").hide();
+            // $("#backButton").hide();
         }
 
         // Global var for input counter
         pageCounter = pageCounter + 1
 
         // Use this function to set question and
-        $("#questionHeader").html('<h2><strong>Your typical <u>' + mealTimes[mealActive].toUpperCase() + '</u> includes:</strong></h2><h4>Click any that apply</h4>')
+
+        if (pageCounter == 1) {
+            $("#questionHeader").html('<h2><strong>Your typical (4+ days / week) <u>' + mealTimes[mealActive].toUpperCase() + '</u> includes:</strong></h2><h4>Click any that apply</h4>')
+        } else {
+            $("#questionHeader").html('<h2><strong>Your typical <u>' + mealTimes[mealActive].toUpperCase() + '</u> includes:</strong></h2><h4>Click any that apply</h4>')
+        }
         $("#progress").html(pageCounter + "/20")
         dietInput();
     }
@@ -186,8 +191,8 @@
 
         // Clear list items
         $('#selectionsList').empty()
-        mealSourceDir = [ ['prepHome','Prepared at home'],['prepRestaurant','Restaurant/cafeteria take-out or delivery'],
-        ['prepVending','Purchased from vending machine or convenient store'],['prepOther','Other'] ];
+        mealSourceDir = [['prepHome', 'Prepared at home'], ['prepRestaurant', 'Restaurant/cafeteria take-out or delivery'],
+        ['prepVending', 'Purchased from vending machine or convenient store'], ['prepOther', 'Other']];
 
         var newItem1 = '<li style="width: 100%; padding-top: 7px; padding-left: 7px;"><div class="clickToggle" style="border-radius: 25px; width: 100%; max-width: 100%; font-size:100%; border: solid 1px; text-align: left; padding: 7px; background-color: lightblue" id="prepHome" title = "On"><b>' + mealSourceDir[0][1] + '</b></div></li>'
         var newItem2 = '<li style="width: 100%; padding-top: 7px; padding-left: 7px;"><div class="clickToggle" style="border-radius: 25px; width: 100%; max-width: 100%; font-size:100%; border: solid 1px; text-align: left; padding: 7px;" id="prepRestaurant"><b>' + mealSourceDir[1][1] + '</b></div></li>'
@@ -282,43 +287,86 @@
 
 
         // Add meal times ranked output here
-        var mealAgg = [[mealTimes[0], 0], [mealTimes[1], 0], [mealTimes[2], 0], [mealTimes[3], 0]]
+
+
+
+
+        var mealAgg = [[mealTimes[0], 0.01], [mealTimes[1], 0.01], [mealTimes[2], 0.01], [mealTimes[3], 0.01]]
         for (j = 0; j < mealAgg.length; j++) {
-            // Filter array for given category/time of day combo
+            // Filter array for giventime of day
             var filteredArray = inputLog.filter(x => x[1] == mealAgg[j][0])
             // console.log(filteredArray)
             // Then take left over array, sum and push to output
-            if (filteredArray.length > 1) {
-                var pointsSum = filteredArray.reduce((a, b) => a[3] + b[3])
+            if (filteredArray.length > 0) {
+                // var pointsSum = filteredArray.reduce( (a, b) => a[3] + b[3] )
+                var pointsSum = filteredArray.map(x => x[3])
+                pointsSum = pointsSum.reduce((partial_sum, a) => partial_sum + a, 0);
                 mealAgg[j][1] = pointsSum
             }
         }
-        // Remove meals with 0 points
-        mealAgg = mealAgg.filter(x => x[1] != 0)
-        // Then sort
-        var mealAggSorted = mealAgg.sort(function (a, b) {
-            return b[1] - a[1];
+
+
+        // Add chart for meal times ranking
+        var ctx5 = document.getElementById("mealChart").getContext("2d");
+        const labels5 = [mealAgg[0][0], mealAgg[1][0], mealAgg[2][0], mealAgg[3][0]];
+        const data5 = {
+            labels: labels5,
+            datasets: [
+                {
+                    label: 'Promotes Weight Gain',
+                    data: [mealAgg[0][1], mealAgg[1][1], mealAgg[2][1], mealAgg[3][1]],
+                    backgroundColor: 'rgb(75, 192, 192)',
+                    tension: 0.1
+                }
+            ]
+        };
+        var tmpChart = new Chart(ctx5, {
+            type: 'bar',
+            data: data5,
+            options: {
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            min: 0,
+                            max: 90,
+                            stepSize: 30,
+                            callback: function (value, index, values) {
+                                var tmp = ['Minimal', 'Low', 'Mid', 'High']
+                                return tmp[value / 30];
+                            }
+                        }
+                    }]
+                },
+            }
         });
 
-        // Add to html output
-        outputHTML = outputHTML + '<h3><b style="color: lightskyblue;">Your top meal times that promote weight gain:</b></h3><ol style="text-align: left">'
 
-        for (ii = 0; ii < mealAggSorted.length; ii++) {
-            var newString = '<li><b>' + mealAggSorted[ii][0] + '</b></li>'
-            outputHTML = outputHTML + newString
-        }
-        outputHTML = outputHTML + '</ol>'
+        // // Remove meals with 0 points
+        // mealAgg = mealAgg.filter(x => x[1] != 0)
+        // // Then sort
+        // var mealAggSorted = mealAgg.sort(function (a, b) {
+        //     return b[1] - a[1];
+        // });
+
+        // // Add to html output
+        // outputHTML = outputHTML + '<h3><b style="color: lightskyblue;">Your top meal times that promote weight gain:</b></h3><ol style="text-align: left">'
+
+        // for (ii = 0; ii < mealAggSorted.length; ii++) {
+        //     var newString = '<li><b>' + mealAggSorted[ii][0] + '</b></li>'
+        //     outputHTML = outputHTML + newString
+        // }
+        // outputHTML = outputHTML + '</ol>'
 
 
 
         // Add meal sources
-         // Add to html output
+        // Add to html output
         outputHTML = outputHTML + '<h3><b style="color: lightskyblue;">Your food sources:</b></h3><ul style="text-align: left; margin-bottom: 15px;">'
 
 
 
         for (ii = 0; ii < lifestyleLog.length; ii++) {
-            var newString =  '<li><b>' + lifestyleLog[ii][1] + ': ' + mealSourceDir.find(x => x[0] == lifestyleLog[ii][0])[1] + '</b></li>'
+            var newString = '<li><b>' + lifestyleLog[ii][1] + ': ' + mealSourceDir.find(x => x[0] == lifestyleLog[ii][0])[1] + '</b></li>'
             outputHTML = outputHTML + newString
         }
         outputHTML = outputHTML + '</ul><p>*This is important because our service fits <u>your program</u> to <u>your lifestyle</u>.</p>'
@@ -336,6 +384,7 @@
     }
 
     function handleEmailSubmit() {
+        alert("Thanks for your interest - this is a test version so your email wasn't recorded. If you want to get in touch - email me dierctly at nwr7794@gmail.com")
         console.log('email submitted')
 
         // Add function that posts data to correct DB
