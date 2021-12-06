@@ -26,7 +26,7 @@
 
         dietDB = $.ajax({
             method: 'GET',
-            url: 'https://sheets.googleapis.com/v4/spreadsheets/1zJG5RXsJfWpL9aRWWotGZNLOaUdOVrZsLKP5uS4106Q/values/Questions!A1:E100?majorDimension=ROWS&key=' + keyProd,
+            url: 'https://sheets.googleapis.com/v4/spreadsheets/1zJG5RXsJfWpL9aRWWotGZNLOaUdOVrZsLKP5uS4106Q/values/Questions!A1:E100?majorDimension=ROWS&key=' + keyTest,
             success: setQuestion,
             error: function ajaxError(jqXHR, textStatus, errorThrown) {
                 console.error('Error pulling data: ', textStatus, ', Details: ', errorThrown);
@@ -324,6 +324,8 @@
             type: 'bar',
             data: data5,
             options: {
+                tooltips: { enabled: false },
+                hover: { mode: null },
                 scales: {
                     yAxes: [{
                         ticks: {
