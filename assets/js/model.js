@@ -377,8 +377,7 @@
         $('#emailForm').show()
 
         // Scroll to top
-        document.getElementById("scrollTo").scrollIntoView({ behavior: 'smooth' });
-
+        document.getElementById("main").scrollIntoView({ behavior: 'smooth' });
 
     }
 
