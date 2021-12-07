@@ -45,21 +45,41 @@
     function dietInput() {
 
         // Clear list items
-        $('#selectionsList').empty()
+        // $('#selectionsList').empty()
+        $('#questionList').empty()
 
-        // console.log(foodData)
+
+        /////////////////////// Testing here ..............
 
         // For each category populate list
-        var foodSubset = foodData.filter(x => x[2] == categories[categoryActive] && x[1].split(',').includes(mealTimes[mealActive]))
+        // var foodSubset = foodData.filter(x => x[2] == categories[categoryActive] && x[1].split(',').includes(mealTimes[mealActive]))
+        var foodSubset = foodData.filter(x => x[1].split(',').includes(mealTimes[mealActive])) // This is the test
         // console.log(foodSubset)
 
+
+
         if (foodSubset.length > 0) {
+
+            var tmpCats = [];
+
+            // <ul class="buttons" id="selectionsList"></ul>
+
             for (j = 0; j < foodSubset.length; j++) {
+                if (!tmpCats.includes(foodSubset[j][2])) {
+                    $('#questionList').append('<div class="collapsibleModel"><b>' + foodSubset[j][2] + ':</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<div class="symbolExpand"><b>+</b></div></div><div class="contentCollapse" style="height: fit-content;"><ul class="buttons" id="id' + foodSubset[j][2] + '"></ul></div>');
+                    tmpCats.push(foodSubset[j][2])
+                }
+
                 // var newItem = '<li style="margin: 3px; padding: 0;  font-size: 10pt"><input type="number" id="ID' + foodSubset[j][6] + '" value="0" style="width: 35px; height: auto;"><label><b>' + foodSubset[j][0] + '</b></label><span style="float: right;">' + foodSubset[j][3] + '</span></li>';
                 var newItem = '<li style="width: 100%; padding-top: 7px; padding-left: 7px;"><div class="clickToggle" style="border-radius: 25px; width: 100%; max-width: 100%; font-size:100%; border: solid 1px; text-align: left; padding: 7px;" id="ID' + foodSubset[j][0] + '"><b>' + foodSubset[j][4] + '</b></div></li>'
-                $("#selectionsList").append(newItem);
+                $('#id' + foodSubset[j][2]).append(newItem);
+
+                // var newItem = '<li style="width: 100%; padding-top: 7px; padding-left: 7px;"><div class="clickToggle" style="border-radius: 25px; width: 100%; max-width: 100%; font-size:100%; border: solid 1px; text-align: left; padding: 7px;" id="ID' + foodSubset[j][0] + '"><b>' + foodSubset[j][4] + '</b></div></li>'
+                // $("#selectionsList").append(newItem);
             }
 
+            // Run collpase script
+            collapseScript();
             // Add click listener to all elements here
             var elements = document.getElementsByClassName("clickToggle");
             var myFunction = function () {
@@ -77,16 +97,18 @@
             for (var i = 0; i < elements.length; i++) {
                 elements[i].addEventListener('click', myFunction, false);
             }
-        } else {
-            categoryActive = categoryActive + 1
-            if (categoryActive > categories.length) {
-                categoryActive = 0
-                mealActive = mealActive + 1
-                dietInput();
-            } else {
-                dietInput();
-            }
         }
+
+        // else {
+        //     categoryActive = categoryActive + 1
+        //     if (categoryActive > categories.length) {
+        //         categoryActive = 0
+        //         mealActive = mealActive + 1
+        //         dietInput();
+        //     } else {
+        //         dietInput();
+        //     }
+        // }
     }
 
     function storeInputs() {
@@ -104,34 +126,36 @@
         }
         // console.log(inputLog)
 
+        mealActive = mealActive + 1
+
         // If it is the last page, complete
         if ($("#nextClick").val() == 'Finish') {
             // alert('Last page complete')
             modelAgg();
         } else {
             // Set to next category or meal if complete
-            categoryActive = categoryActive + 1
-            // If no items for meal/cat combo, go to next
-            for (i = 0; i < categories.length; i++) {
-                var check = foodData.filter(x => x[2] == categories[categoryActive] && x[1].split(',').includes(mealTimes[mealActive]))
-                // console.log(check)
-                if (check.length < 1) {
-                    if (categoryActive > categories.length) {
-                        categoryActive = 0
-                        mealActive = mealActive + 1
-                    } else {
-                        categoryActive = categoryActive + 1
-                    }
-                } else {
-                    break;
-                }
-            }
+            // categoryActive = categoryActive + 1
+            // // If no items for meal/cat combo, go to next
+            // for (i = 0; i < categories.length; i++) {
+            //     var check = foodData.filter(x => x[2] == categories[categoryActive] && x[1].split(',').includes(mealTimes[mealActive]))
+            //     // console.log(check)
+            //     if (check.length < 1) {
+            //         if (categoryActive > categories.length) {
+            //             categoryActive = 0
+            //             mealActive = mealActive + 1
+            //         } else {
+            //             categoryActive = categoryActive + 1
+            //         }
+            //     } else {
+            //         break;
+            //     }
+            // }
 
             // Scroll to top
             document.getElementById("scrollTo").scrollIntoView({ behavior: 'smooth' });
 
             // Jump to final questions
-            if (pageCounter == 16) { //16
+            if (pageCounter == 4) { //16
                 mealActive = 0
                 setLifestyle();
 
@@ -158,17 +182,36 @@
 
         // Use this function to set question and
 
-        if (pageCounter == 1) {
-            $("#questionHeader").html('<h2><strong>Your typical (4+ days / week) <u>' + mealTimes[mealActive].toUpperCase() + '</u> includes:</strong></h2><h4>Click any that apply</h4>')
-        } else {
-            $("#questionHeader").html('<h2><strong>Your typical <u>' + mealTimes[mealActive].toUpperCase() + '</u> includes:</strong></h2><h4>Click any that apply</h4>')
-        }
-        $("#progress").html(pageCounter + "/20")
+        // if (pageCounter == 1) {
+        $("#questionHeader").html('<h2><strong>Your typical (4+ days / week) <u>' + mealTimes[mealActive].toUpperCase() + '</u> includes:</strong></h2><h4>Click any that apply</h4>')
+        // } else {
+        //     $("#questionHeader").html('<h2><strong>Your typical <u>' + mealTimes[mealActive].toUpperCase() + '</u> includes:</strong></h2><h4>Click any that apply</h4>')
+        // }
+
+        document.getElementById(mealTimes[mealActive] + 'Bar').style.backgroundColor = "lightgrey"
+
+
+        // if (pageCounter == 4) {
+        //     document.getElementById("LunchBar").style.backgroundColor = "lightgrey"
+        // }
+        // if (pageCounter == 8) {
+        //     document.getElementById("DinnerBar").style.backgroundColor = "lightgrey"
+        // }
+        // if (pageCounter == 12) {
+        //     document.getElementById("SnacksBar").style.backgroundColor = "lightgrey"
+        // }
+
+
+        // $("#progress").html(pageCounter + "/20")
         dietInput();
     }
 
     // Function that prompts and logs where the food from each meal comes from
     function setLifestyle() {
+
+        $('#questionList').empty()
+
+
 
         // Create new clickhandler
         $('#nextClick').off()
@@ -187,10 +230,13 @@
             var verb = 'are'
         }
         $("#questionHeader").html('<h2><strong>Your typical <u>' + mealTimes[mealActive].toUpperCase() + '</u> ' + verb + ':</strong></h2><h4>Choose one</h4>')
-        $("#progress").html(pageCounter + "/20")
+        // $("#progress").html(pageCounter + "/20")
 
         // Clear list items
-        $('#selectionsList').empty()
+        // $('#selectionsList').empty()
+        // add selections list
+        $('#questionList').append('<ul class="buttons" id="selectionsList"></ul>');
+
         mealSourceDir = [['prepHome', 'Prepared at home'], ['prepRestaurant', 'Restaurant/cafeteria take-out or delivery'],
         ['prepVending', 'Purchased from vending machine or convenient store'], ['prepOther', 'Other']];
 
@@ -433,6 +479,66 @@
     }
 
 
+    function collapseScript() {
+        //Collapsible script - taken from macrofade
+        // var type = ['collapsible']
+        // for (j = 0; j < type.length; j++) {
+        var coll = document.getElementsByClassName('collapsible');
+        var i;
+
+        for (i = 0; i < coll.length; i++) {
+            coll[i].addEventListener("click", function () {
+                this.classList.toggle("active");
+                var content = this.nextElementSibling;
+                if (content.style.maxHeight) {
+                    content.style.maxHeight = null;
+                } else {
+                    content.style.maxHeight = content.scrollHeight + "px";
+                }
+            });
+        }
+        // }
+
+        //Collapsible script
+        // Change div class to Collaspsible Model Active
+        // var type = ['collapsibleModel']
+        // for (j = 0; j < type.length; j++) {
+        var coll1 = document.getElementsByClassName('collapsibleModel');
+        // var coll1 = document.getElementsByClassName('symbolExpand');
+        var j;
+
+
+        // This works! makes clickable area for expanding bigger, then clean up, then create rest of assumptions
+
+        for (j = 0; j < coll1.length; j++) {
+            // var symbol = this.getElementsByClassName('symbolExpand')
+            if (coll1[j].getElementsByClassName('symbolExpand')[0] != undefined) {
+                // console.log(coll1[j])
+                coll1[j].addEventListener("click", function () {
+                    console.log('clicked')
+                    // coll1[j].getElementsByClassName('symbolExpand')[0].addEventListener("click", function () {
+
+                    // this.classList.toggle("active");
+                    // var content = this.nextElementSibling;
+
+                    // var parent = child.parentElement;
+                    var parent = this;
+                    var child = parent.children[1];
+                    var content = parent.nextElementSibling;
+                    if (content.style.maxHeight) {
+                        content.style.maxHeight = null;
+                        child.innerHTML = '<b>+</b>'
+                        // document.getElementById('symbolExpand').innerHTML = '<b>+</b>'
+                    } else {
+                        content.style.maxHeight = content.scrollHeight + "px";
+                        child.innerHTML = '<b>-</b>'
+                        // document.getElementById('symbolExpand').innerHTML = '<b>-</b>'
+                    }
+                });
+            }
+        }
+
+    }
 
 
 

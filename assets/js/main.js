@@ -128,6 +128,7 @@
 		if (coll1[j].getElementsByClassName('symbolExpand')[0] != undefined) {
 			// console.log(coll1[j])
 			coll1[j].addEventListener("click", function () {
+				console.log('clicked')
 				// coll1[j].getElementsByClassName('symbolExpand')[0].addEventListener("click", function () {
 
 				// this.classList.toggle("active");
