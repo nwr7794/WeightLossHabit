@@ -15,11 +15,26 @@
         lifestyleLog = [];
         // Global var for input counter
         pageCounter = 0
+        // Assign ID to this session
+        userID = new Date().getTime() + Math.random();
+        userStart = true
+        userFinish = false
 
 
         $('#nextClick').click(storeInputs);
+        $('#backClick').click(backClickHandle);
         // $('#prevClick').click(storeInputs);
         $('#emailForm').submit(handleEmailSubmit);
+        $('#startClick').click(function () {
+            $('#buttonListLanding').hide()
+            $('#headerQuiz').show()
+            $('#scrollTo').show()
+            document.getElementById("scrollTo").scrollIntoView({ behavior: 'smooth' });
+            // Update session data
+            handleAddData();
+            console.log('new session initiated')
+        });
+
 
         var keyProd = 'AIzaSyDaqR3scLgh4Dw26glrQ2BfDHiMJKzDIz4'
         var keyTest = 'AIzaSyAGYgfzU5Lo2-OsFVMySI7UNzjxl_4EkQQ' ///////////////////////////////////////// Make sure right one active pre-commit
@@ -58,46 +73,53 @@
 
 
 
-        if (foodSubset.length > 0) {
+        // if (foodSubset.length > 0) {
 
-            var tmpCats = [];
+        var tmpCats = [];
 
-            // <ul class="buttons" id="selectionsList"></ul>
+        // <ul class="buttons" id="selectionsList"></ul>
 
-            for (j = 0; j < foodSubset.length; j++) {
-                if (!tmpCats.includes(foodSubset[j][2])) {
-                    $('#questionList').append('<div class="collapsibleModel"><b>' + foodSubset[j][2] + ':</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<div class="symbolExpand"><b>+</b></div></div><div class="contentCollapse" style="height: fit-content;"><ul class="buttons" id="id' + foodSubset[j][2] + '"></ul></div>');
-                    tmpCats.push(foodSubset[j][2])
-                }
+        var tmpInput = inputLog.filter(x => x[1] == mealTimes[mealActive]).map(x => x[0])
 
-                // var newItem = '<li style="margin: 3px; padding: 0;  font-size: 10pt"><input type="number" id="ID' + foodSubset[j][6] + '" value="0" style="width: 35px; height: auto;"><label><b>' + foodSubset[j][0] + '</b></label><span style="float: right;">' + foodSubset[j][3] + '</span></li>';
+        for (j = 0; j < foodSubset.length; j++) {
+            if (!tmpCats.includes(foodSubset[j][2])) {
+                $('#questionList').append('<div class="collapsibleModel"><b>' + foodSubset[j][2] + ':</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<div class="symbolExpand"><b>+</b></div></div><div class="contentCollapse" style="height: fit-content;"><ul class="buttons" id="id' + foodSubset[j][2] + '"></ul></div>');
+                tmpCats.push(foodSubset[j][2])
+            }
+
+            // var newItem = '<li style="margin: 3px; padding: 0;  font-size: 10pt"><input type="number" id="ID' + foodSubset[j][6] + '" value="0" style="width: 35px; height: auto;"><label><b>' + foodSubset[j][0] + '</b></label><span style="float: right;">' + foodSubset[j][3] + '</span></li>';
+            // If item was previsouly selected, then make it selected as default
+            if (tmpInput.includes('ID' + foodSubset[j][0])) {
+                var newItem = '<li style="width: 100%; padding-top: 7px; padding-left: 7px;"><div class="clickToggle" style="border-radius: 25px; width: 100%; max-width: 100%; font-size:100%; border: solid 1px; text-align: left; padding: 7px; background-color: lightblue" title="On" id="ID' + foodSubset[j][0] + '"><b>' + foodSubset[j][4] + '</b></div></li>'
+            } else {
                 var newItem = '<li style="width: 100%; padding-top: 7px; padding-left: 7px;"><div class="clickToggle" style="border-radius: 25px; width: 100%; max-width: 100%; font-size:100%; border: solid 1px; text-align: left; padding: 7px;" id="ID' + foodSubset[j][0] + '"><b>' + foodSubset[j][4] + '</b></div></li>'
-                $('#id' + foodSubset[j][2]).append(newItem);
-
-                // var newItem = '<li style="width: 100%; padding-top: 7px; padding-left: 7px;"><div class="clickToggle" style="border-radius: 25px; width: 100%; max-width: 100%; font-size:100%; border: solid 1px; text-align: left; padding: 7px;" id="ID' + foodSubset[j][0] + '"><b>' + foodSubset[j][4] + '</b></div></li>'
-                // $("#selectionsList").append(newItem);
             }
+            $('#id' + foodSubset[j][2]).append(newItem);
 
-            // Run collpase script
-            collapseScript();
-            // Add click listener to all elements here
-            var elements = document.getElementsByClassName("clickToggle");
-            var myFunction = function () {
-                if (this.style.backgroundColor == "lightblue") {
-                    this.style.backgroundColor = "white"
-                    this.setAttribute("title", "Off");
-                } else {
-                    this.style.backgroundColor = "lightblue"
-                    this.setAttribute("title", "On");
-                }
-                // var attribute = this.getAttribute("class");
-                // this.style.backgroundColor = "lightblue"
-                // alert(attribute);
-            };
-            for (var i = 0; i < elements.length; i++) {
-                elements[i].addEventListener('click', myFunction, false);
-            }
+            // var newItem = '<li style="width: 100%; padding-top: 7px; padding-left: 7px;"><div class="clickToggle" style="border-radius: 25px; width: 100%; max-width: 100%; font-size:100%; border: solid 1px; text-align: left; padding: 7px;" id="ID' + foodSubset[j][0] + '"><b>' + foodSubset[j][4] + '</b></div></li>'
+            // $("#selectionsList").append(newItem);
         }
+
+        // Run collpase script
+        collapseScript();
+        // Add click listener to all elements here
+        var elements = document.getElementsByClassName("clickToggle");
+        var myFunction = function () {
+            if (this.style.backgroundColor == "lightblue") {
+                this.style.backgroundColor = "white"
+                this.setAttribute("title", "Off");
+            } else {
+                this.style.backgroundColor = "lightblue"
+                this.setAttribute("title", "On");
+            }
+            // var attribute = this.getAttribute("class");
+            // this.style.backgroundColor = "lightblue"
+            // alert(attribute);
+        };
+        for (var i = 0; i < elements.length; i++) {
+            elements[i].addEventListener('click', myFunction, false);
+        }
+        // }
 
         // else {
         //     categoryActive = categoryActive + 1
@@ -111,10 +133,17 @@
         // }
     }
 
+
+    function backClickHandle() {
+        mealActive = mealActive - 1
+        pageCounter = pageCounter - 2
+        setQuestion();
+    }
+
     function storeInputs() {
 
         // First wipe old data from that meal if there is any - only need this if there is a back button
-        // inputLog = inputLog.filter(x => x[1] != mealTimes[mealActive] && x[2] != categories[categoryActive])
+        inputLog = inputLog.filter(x => x[1] != mealTimes[mealActive])
 
         // Store selected data
         // Structure: [ID,Time of Day,Category]
@@ -188,7 +217,36 @@
         //     $("#questionHeader").html('<h2><strong>Your typical <u>' + mealTimes[mealActive].toUpperCase() + '</u> includes:</strong></h2><h4>Click any that apply</h4>')
         // }
 
-        document.getElementById(mealTimes[mealActive] + 'Bar').style.backgroundColor = "lightgrey"
+        if (pageCounter == 2 || pageCounter == 3 || pageCounter == 4) {
+            $('#backClick').show()
+        } else {
+            $('#backClick').hide()
+        }
+
+
+        if (pageCounter > 3) {
+            document.getElementById(mealTimes[1] + 'Bar').style.backgroundColor = "lightgrey"
+            document.getElementById(mealTimes[2] + 'Bar').style.backgroundColor = "lightgrey"
+            document.getElementById(mealTimes[3] + 'Bar').style.backgroundColor = "lightgrey"
+        } else if (pageCounter == 3) {
+            document.getElementById(mealTimes[1] + 'Bar').style.backgroundColor = "lightgrey"
+            document.getElementById(mealTimes[2] + 'Bar').style.backgroundColor = "lightgrey"
+            document.getElementById(mealTimes[3] + 'Bar').style.backgroundColor = "white"
+        } else if (pageCounter == 2) {
+            document.getElementById(mealTimes[1] + 'Bar').style.backgroundColor = "lightgrey"
+            document.getElementById(mealTimes[2] + 'Bar').style.backgroundColor = "white"
+            document.getElementById(mealTimes[3] + 'Bar').style.backgroundColor = "white"
+        } else {
+            document.getElementById(mealTimes[1] + 'Bar').style.backgroundColor = "white"
+            document.getElementById(mealTimes[2] + 'Bar').style.backgroundColor = "white"
+            document.getElementById(mealTimes[3] + 'Bar').style.backgroundColor = "white"
+        }
+
+        // document.getElementById(mealTimes[mealActive] + 'Bar').style.backgroundColor = "lightgrey"
+
+
+
+
 
 
         // if (pageCounter == 4) {
@@ -211,6 +269,7 @@
 
         $('#questionList').empty()
 
+        $('#backClick').hide()
 
 
         // Create new clickhandler
@@ -427,10 +486,17 @@
         // Scroll to top
         document.getElementById("main").scrollIntoView({ behavior: 'smooth' });
 
+        // Log
+        userFinish = true;
+        handleAddData();
+
     }
 
     function handleEmailSubmit() {
-        alert("Thanks for your interest - this is a test version so your email wasn't recorded. If you want to get in touch - email me dierctly at nwr7794@gmail.com")
+        // Log
+        handleAddData();
+
+        alert("Thanks for your interest! You'll hear back form us ASAP!")
         console.log('email submitted')
 
         // Add function that posts data to correct DB
@@ -441,13 +507,16 @@
     function userAdd(userInputs) {
         $.ajax({
             method: 'POST',
-            url: _config.api.invokeUrl + '/implement',
+            url: _config.api.invokeUrl + '/user',
             headers: {},
             data: JSON.stringify({
-                DietID: userInputs.dietID,
-                DietName: userInputs.dietName,
-                Name: userInputs.name,
-                Email: userInputs.email
+                ID: userInputs.userID,
+                Start: userInputs.start,
+                Finish: userInputs.finish,
+                Foods: userInputs.foods,
+                Sources: userInputs.sources,
+                Email: userInputs.email,
+                Age: userInputs.age
             }),
             contentType: 'application/json',
             success: completeRequest,
@@ -460,21 +529,26 @@
     }
 
     function completeRequest(response) {
-        // console.log(response)
-        document.getElementById("dietComplete").innerHTML = '<h3 style="color: orange;">Congratulations ' + response.Name +
-            ' on beginning your weight loss journey! You will receive an email from us shortly!</h3><b>Diet: ' +
-            response.DietName + '<br>Email: ' + response.Email + '</b>';
+        console.log(response)
+        // document.getElementById("dietComplete").innerHTML = '<h3 style="color: orange;">Congratulations ' + response.Name +
+        //     ' on beginning your weight loss journey! You will receive an email from us shortly!</h3><b>Diet: ' +
+        //     response.DietName + '<br>Email: ' + response.Email + '</b>';
 
-        document.getElementById("pitch").style.display = 'none'
-        document.getElementById("dietSubmit").style.display = 'none'
-        document.getElementById("dietComplete").style.display = 'block'
+        // document.getElementById("pitch").style.display = 'none'
+        // document.getElementById("dietSubmit").style.display = 'none'
+        // document.getElementById("dietComplete").style.display = 'block'
 
     }
 
+
+
     function handleAddData() {
         var email = $('#email_ass').val();
-        // var userInputs = { 'dietID': dietID, 'dietName': dietName, 'name': name, 'email': email }
-        // userAdd(userInputs)
+        var age = $('#age_ass').val();
+        var userInputs = { 'userID': userID, 'start': userStart, 'finish': userFinish, 'foods': inputLog, 'sources': lifestyleLog, 'email': email, 'age': age }
+        // var userInputs = { 'userID': userID}
+        console.log(userInputs)
+        userAdd(userInputs)
         return false;
     }
 
@@ -515,7 +589,7 @@
             if (coll1[j].getElementsByClassName('symbolExpand')[0] != undefined) {
                 // console.log(coll1[j])
                 coll1[j].addEventListener("click", function () {
-                    console.log('clicked')
+                    // console.log('clicked')
                     // coll1[j].getElementsByClassName('symbolExpand')[0].addEventListener("click", function () {
 
                     // this.classList.toggle("active");
